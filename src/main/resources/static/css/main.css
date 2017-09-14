@@ -1,0 +1,17 @@
+.form_title {
+    color: green;
+    display: inline-block;
+    float: left;
+    width: 100px;
+}
+
+.weather_span {
+    text-align: center;
+    display: -moz-inline-box;
+    display: inline-block;
+    width: 16.6%;
+}
+
+.weather_span_small{
+    width: 50px;
+}

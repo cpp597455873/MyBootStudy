@@ -10,6 +10,7 @@ import java.util.*;
  */
 public class BaseResponse {
 
+    private static String SUCCESS_STR = "OK";
     private int code;
     private String msg;
     private List<Map<String, Object>> resultList;
@@ -30,7 +31,7 @@ public class BaseResponse {
 
     public BaseResponse(List<Map<String, Object>> resultList) {
         this.code = ErrorCode.SUCCESS;
-        this.msg = "OK";
+        this.msg = SUCCESS_STR;
         this.resultList = resultList;
     }
 
@@ -44,25 +45,25 @@ public class BaseResponse {
 
 
     public static BaseResponse emptySuccessResult() {
-        return new BaseResponse(ErrorCode.SUCCESS, "OK", Collections.EMPTY_LIST);
+        return new BaseResponse(ErrorCode.SUCCESS, SUCCESS_STR, Collections.EMPTY_LIST);
     }
 
 
     public static BaseResponse successResult(Map<String, Object> data) {
-        return new BaseResponse(ErrorCode.SUCCESS, "OK", Arrays.asList(data));
+        return new BaseResponse(ErrorCode.SUCCESS, SUCCESS_STR, Arrays.asList(data));
 
     }
 
     public static BaseResponse successBeanResult(Object data) {
-        return new BaseResponse(ErrorCode.SUCCESS, "OK", Arrays.asList(BeanUtil.bean2Map(data)));
+        return new BaseResponse(ErrorCode.SUCCESS, SUCCESS_STR, Arrays.asList(BeanUtil.bean2Map(data)));
     }
 
     public static BaseResponse successListBeanResult(List dataList) {
-        return new BaseResponse(ErrorCode.SUCCESS, "OK", (List<Map<String, Object>>) BeanUtil.listBean2MapList(dataList));
+        return new BaseResponse(ErrorCode.SUCCESS, SUCCESS_STR, (List<Map<String, Object>>) BeanUtil.listBean2MapList(dataList));
     }
 
     public static BaseResponse successListMapResult(List<Map<String, Object>> dataList) {
-        return new BaseResponse(ErrorCode.SUCCESS, "OK", dataList);
+        return new BaseResponse(ErrorCode.SUCCESS, SUCCESS_STR, dataList);
     }
 
 

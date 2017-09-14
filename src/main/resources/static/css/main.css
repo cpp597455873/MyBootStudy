@@ -5,13 +5,51 @@
     width: 100px;
 }
 
+
 .weather_span {
+    padding: 8px 16px 8px 16px;
+    font-size: 12px;
+    color: white;
     text-align: center;
-    display: -moz-inline-box;
-    display: inline-block;
-    width: 16.6%;
+    display: block;
+    float: none;
+    margin: 0 auto;
 }
 
-.weather_span_small{
-    width: 50px;
+.box {
+    background: #90afc8;
+    display: inline-block;
+    margin: 8px;
+}
+
+.box >span, .box>img{
+    padding: 8px 16px 8px 16px;
+    font-size: 12px;
+    color: white;
+    text-align: center;
+    display: block;
+    float: none;
+    margin: 0 auto;
+}
+
+.today_box{
+    background: #576bc8;
+}
+
+
+
+.search_box {
+    padding-left: 8px;
+    height: 40px;
+    width: 300px;
+}
+
+.search_btn {
+    padding: 2px 16px 2px 16px;
+    solid-color: dodgerblue;
+    height: 40px;
+    border: none;
+    color: white;
+    background: dodgerblue;
+    border-radius: 3px;
 }

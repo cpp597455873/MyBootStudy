@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<html>
 <head>
     <link rel="stylesheet" type="text/css" href="src/main/resources/static/css/main.css"/>
     <link href="../css/main.css" rel="stylesheet" type="text/css">
@@ -10,49 +10,66 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<div id="app">
-    <span class="form_title">城市名称：</span> <input name="username" v-model="cityName" placeholder="请输入城市名称"/>
-    <button type="button" @click="getData">查询天气</button>
+<div id="app" style="text-align: center">
 
-    <div v-if="retData">当前城市:{{retData.resultList[0].results[0].currentCity}}</div>
+    <input name="username" v-model="cityName" placeholder="请输入城市名称" class="search_box"/>
+    <button type="button" @click="getData" class="search_btn">查询天气</button>
+    <br>
+
     <div v-if="retData">
-        <span class="weather_span">时间 </span>
-        <span class="weather_span weather_span_small">白天</span>
-        <span class="weather_span weather_span_small">夜晚</span>
-        <span class="weather_span">温度 </span>
-        <span class="weather_span">天气</span>
-        <span class="weather_span">风力</span>
-
-        <div v-for="weather in retData.resultList[0].results[0].weather_data">
-            <span class="weather_span">{{weather.date.substring(0,3)}} </span>
-            <img class="weather_span weather_span_small" :src="weather.dayPictureUrl"/>
-            <img class="weather_span weather_span_small" :src="weather.nightPictureUrl"/>
-            <span class="weather_span">{{weather.temperature}}</span>
-            <span class="weather_span">{{weather.weather}}</span>
-            <span class="weather_span">{{weather.wind}}</span>
-            <br>
-        </div>
+        <weather_item v-for="(weather,index) in retData.resultList[0].results[0].weather_data" :weather="weather"
+                      :index="index"></weather_item>
     </div>
 </div>
 </body>
 
 <script>
+    //封装组件
+    Vue.component('weather_item', {
+        props: ['weather', 'index'],
+        template: "<div class='box' :class='getClassOfDay(index)'><span>{{weather.date.substring(0,3)}}{{getDateStr(index)}} </span> <img  :src='weather.dayPictureUrl'/> <img  :src='weather.nightPictureUrl'/> <span >{{weather.temperature}}</span> <span >{{weather.weather}}</span> <span >{{weather.wind}}</span></div>",
+        methods: {
+            //组件内部方法
+            getDateStr: function (index) {
+                var dateStr;
+                switch (index) {
+                    case 0:
+                        dateStr = '(今天)';
+                        break;
+                    case 1:
+                        dateStr = '(明天)';
+                        break;
+                    case 2:
+                        dateStr = '(后天)';
+                        break;
+                    default:
+                        dateStr = '';
+                }
+                return dateStr;
+            }, getClassOfDay: function (index) {
+                return index == 0 ? 'today_box' : null;
+            }
+        }
+
+    });
+
     var app = new Vue({
         el: '#app',
         data: {
             result: '请先查询天气哦',
-            cityName: '北京',
+            cityName: localStorage.getItem("city") ? localStorage.getItem("city") : "北京",
             retData: undefined
         },
         methods: {
             getData: function () {
+                localStorage.setItem("city", this.cityName);
                 new App().postRequest(this, "http://localhost:8080/glass/deal/weather/get", {city: this.cityName}, function (retData) {
                     this.retData = retData.body;
                 }, function (error) {
-                    alert("失败啦" + error.toString());
+                    alert("失败啦");
                 })
-            }
 
+            }
         }
     });
 </script>

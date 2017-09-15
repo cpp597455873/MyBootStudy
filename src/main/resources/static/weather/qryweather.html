@@ -1,24 +1,23 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="src/main/resources/static/css/main.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css"/>
     <link href="../css/main.css" rel="stylesheet" type="text/css">
     <script src="../js/Vue.js"></script>
     <script src="../js/vue-resource.js"></script>
     <script src="../js/App.js"></script>
-    <title>login</title>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/mint-ui/lib/index.js"></script>
+    <title>天气查询</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
 <div id="app" style="text-align: center">
-
-    <input name="username" v-model="cityName" placeholder="请输入城市名称" class="search_box"/>
-    <button type="button" @click="getData" class="search_btn">查询天气</button>
-    <br>
-
+    <mt-field v-model="cityName" placeholder="请输入城市名称"  class="search_box"></mt-field>
+    <mt-button @click.native="getData">搜索</mt-button>
     <div v-if="retData">
-        <weather_item v-for="(weather,index) in retData.resultList[0].results[0].weather_data" :weather="weather"
-                      :index="index"></weather_item>
+        <weather_item v-for="(weather,index) in retData.resultList[0].results[0].weather_data" :weather="weather" :index="index"></weather_item>
     </div>
 </div>
 </body>

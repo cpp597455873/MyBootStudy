@@ -3,6 +3,7 @@ package com.cpp.web.controler;
 import com.alibaba.fastjson.JSON;
 import com.cpp.web.bean.request.Weather;
 import com.cpp.web.bean.response.BaseResponse;
+import com.cpp.web.constant.Config;
 import com.cpp.web.constant.DefineUrl;
 import com.cpp.web.constant.ErrorCode;
 import com.cpp.web.framework.HttpServer;
@@ -27,21 +28,22 @@ import java.util.Map;
 @RestController
 public class WeatherController {
 
-    @Value("${config.ak}")
-    private String ak;
+    private final Config config;
+    private OkHttpClient okHttpClient;
 
     @Autowired
-    OkHttpClient okHttpClient;
+    public WeatherController(Config config, OkHttpClient okHttpClient) {
+        this.config = config;
+        this.okHttpClient = okHttpClient;
+    }
 
-    @RequestMapping(value = DefineUrl.WEATHER_GET)
+    @RequestMapping(value = DefineUrl.
+            WEATHER_GET)
     @ResponseBody
     public BaseResponse get(@RequestBody Map<String, Object> inParam) {
         try {
-            Request.Builder url = new Request.Builder().get().url("http://api.map.baidu.com/telematics/v3/weather?output=json&ak="+ak+"&location=" + URLEncoder.encode((String) inParam.get("city"), "utf-8"));
-            Call call = okHttpClient.newCall(url.build());
-            Response execute = call.execute();
-            com.squareup.okhttp.ResponseBody body = execute.body();
-            Weather weather = JSON.parseObject(body.string(), Weather.class);
+            Request.Builder url = new Request.Builder().get().url("http://api.map.baidu.com/telematics/v3/weather?output=json&ak=" + config.getAk() + "&location=" + inParam.get("city"));
+            Weather weather = JSON.parseObject(okHttpClient.newCall(url.build()).execute().body().string(), Weather.class);
             return new BaseResponse(ErrorCode.SUCCESS, "查询天气成功", BeanUtil.bean2ListMap(weather));
         } catch (IOException e) {
             e.printStackTrace();

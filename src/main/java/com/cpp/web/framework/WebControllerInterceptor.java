@@ -1,5 +1,6 @@
 package com.cpp.web.framework;
 
+import com.cpp.web.bean.request.RequestBean;
 import com.cpp.web.bean.response.BaseResponse;
 import com.cpp.web.constant.ErrorCode;
 import com.cpp.web.exception.BusinessException;
@@ -39,15 +40,15 @@ public class WebControllerInterceptor {
         String requestMethod = request.getMethod();
         if (requestMethod.equalsIgnoreCase("post")) {
             params = joinPoint.getArgs()[0];
-            Map map = (Map) params;
-            if (map == null || map.size() == 0) {
+            RequestBean map = (RequestBean) params;
+            if (map == null || map.getParam() == null) {
                 throw new BusinessException(ErrorCode.PARAM_EMPTY, "参数不能为空", new RuntimeException("参数不能为空"));
             }
         } else {
             params = joinPoint.getArgs();
         }
 
-        LogUtil.logInParam("url:" + request.getRequestURL().toString() + "  method:" + requestMethod + "  param:" + params);
+        LogUtil.logInParam(params);
 
 
     }

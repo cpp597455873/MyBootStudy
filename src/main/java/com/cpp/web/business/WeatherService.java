@@ -1,4 +1,4 @@
-package com.cpp.web.controler;
+package com.cpp.web.business;
 
 import com.alibaba.fastjson.JSON;
 import com.cpp.web.bean.request.Weather;
@@ -7,6 +7,8 @@ import com.cpp.web.constant.Config;
 import com.cpp.web.constant.DefineUrl;
 import com.cpp.web.constant.ErrorCode;
 import com.cpp.web.framework.HttpServer;
+import com.cpp.web.framework.annotation.BusinessMethod;
+import com.cpp.web.framework.annotation.BusinessModule;
 import com.cpp.web.util.BeanUtil;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.OkHttpClient;
@@ -25,22 +27,20 @@ import java.util.Map;
  * Created by cpp59 on 2017/9/11.
  */
 @Component
-@RestController
-public class WeatherController {
+@BusinessModule
+public class WeatherService {
 
     private final Config config;
     private OkHttpClient okHttpClient;
 
     @Autowired
-    public WeatherController(Config config, OkHttpClient okHttpClient) {
+    public WeatherService(Config config, OkHttpClient okHttpClient) {
         this.config = config;
         this.okHttpClient = okHttpClient;
     }
 
-    @RequestMapping(value = DefineUrl.
-            WEATHER_GET)
-    @ResponseBody
-    public BaseResponse get(@RequestBody Map<String, Object> inParam) {
+    @BusinessMethod
+    public BaseResponse getWeather(Map<String, Object> inParam) {
         try {
             Request.Builder url = new Request.Builder().get().url("http://api.map.baidu.com/telematics/v3/weather?output=json&ak=" + config.getAk() + "&location=" + inParam.get("city"));
             Weather weather = JSON.parseObject(okHttpClient.newCall(url.build()).execute().body().string(), Weather.class);

@@ -19,10 +19,11 @@ public class LogUtil {
     }
 
     public static void logInParam(Object map) {
-        logger.info("入参:" + map);
+        logger.info("入参:" + JSON.toJSONString(map));
     }
 
     public static void logException(Exception exception) {
+        exception.printStackTrace();
         logger.info("异常:" + exception.getMessage());
     }
 

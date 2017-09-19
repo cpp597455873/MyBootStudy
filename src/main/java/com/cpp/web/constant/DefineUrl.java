@@ -7,6 +7,7 @@ public class DefineUrl {
     public static final String URL_BASE = "/glass/deal";
 
     public static final String ENTRANCE = URL_BASE + "/main";
+    public static final String ENTRANCE_BATCH = URL_BASE + "/batch";
 
 
 }

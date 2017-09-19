@@ -59,10 +59,13 @@ public class AppEngine {
                                         name = method.getName();
                                     }
                                     if (map.containsKey(name)) {
-                                        System.err.println("方法重名");
+                                        LogUtil.error("方法重名:" + name);
                                         System.exit(-1);
+                                    } else if (method.getReturnType().equals(BaseResponse.class) && method.getParameterCount() == 1 && method.getParameterTypes()[0].equals(Map.class)) {
+                                        //准确的验证签名
+                                        map.put(name, new InvokeMethod(value, method));
                                     }
-                                    map.put(name, new InvokeMethod(value, method));
+                                    break;
                                 }
                             }
                         }

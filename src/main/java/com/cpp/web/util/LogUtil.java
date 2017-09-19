@@ -18,6 +18,22 @@ public class LogUtil {
         logger.info("入参: " + map);
     }
 
+    public static void info(Object object) {
+        logger.info("info: " + object);
+    }
+
+    public static void debug(Object object) {
+        logger.warn("debug: " + object);
+    }
+
+    public static void warn(Object object) {
+        logger.warn("warn: " + object);
+    }
+
+    public static void error(Object object) {
+        logger.error("error: " + object);
+    }
+
     public static void logInParam(Object map) {
         logger.info("入参:" + JSON.toJSONString(map));
     }

@@ -79,8 +79,7 @@ public class UserService extends BaseService {
         if (!success) {
             new BaseResponse(ErrorCode.SERVER_ERROR_UNKNOWN, "注册失败服务器未知异常");
         }
-
-        BaseResponse loginResult = login(inParam);
+        BaseResponse loginResult = callInterface("login", inParam);
         if (loginResult.successExecute()) {
             loginResult.setMsg("注册成功");
         }

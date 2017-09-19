@@ -3,7 +3,8 @@ package com.cpp.web.controler;
 import com.cpp.web.bean.request.RequestBean;
 import com.cpp.web.bean.response.BaseResponse;
 import com.cpp.web.constant.DefineUrl;
-import com.cpp.web.framework.AppContext;
+import com.cpp.web.framework.AppEngine;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class EntranceController {
 
+    @Autowired
+    AppEngine appEngine;
 
     /**
      * 入口房阿发
@@ -26,7 +29,7 @@ public class EntranceController {
     @RequestMapping(DefineUrl.ENTRANCE)
     @ResponseBody
     public BaseResponse doBusiness(@RequestBody RequestBean requestBean) {
-        return AppContext.invoke(requestBean);
+        return appEngine.invoke(requestBean);
     }
 
 }

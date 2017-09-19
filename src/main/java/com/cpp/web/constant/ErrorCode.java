@@ -11,6 +11,7 @@ public class ErrorCode {
     public static final int INVOKE_EXCEPTION = -4;
     public static final int INVOKE_METHOD_NOT_FOUND = -5;
     public static final int INVOKE_EMPTY_CODE = -6;
+    public static final int INVOKE_NOT_PREPARED = -7;
 
     public static final int LOGIN_FAIL = -10;
     public static final int USER_EXIST = -11;

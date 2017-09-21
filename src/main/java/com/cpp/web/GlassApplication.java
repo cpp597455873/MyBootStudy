@@ -1,6 +1,7 @@
 package com.cpp.web;
 
 import com.cpp.web.framework.AppEngine;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -10,6 +11,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
 @SpringBootApplication
+@MapperScan("com.cpp.web.dao")
 public class GlassApplication {
     static long start;
 

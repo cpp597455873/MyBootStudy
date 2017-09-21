@@ -1,9 +1,8 @@
 var App = (function () {
-    var url_base = '';
+    var url_base ="http://localhost:8080/glass/deal/main";
     return {
-        name: 'APP Html5 Framework',
-        postRequest: function (vue, url, data, successCallback,failCallback) {
-            vue.$http.post(url, data).then(successCallback).catch(failCallback);
+        postRequest: function (vue, data, successCallback,failCallback) {
+            vue.$http.post(url_base, data).then(successCallback).catch(failCallback);
         }
     }
 });

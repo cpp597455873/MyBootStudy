@@ -3,6 +3,7 @@ package com.cpp.web.business;
 import com.alibaba.fastjson.JSON;
 import com.cpp.web.bean.request.Weather;
 import com.cpp.web.bean.response.BaseResponse;
+import com.cpp.web.bean.response.BaseResponseMap;
 import com.cpp.web.constant.Config;
 import com.cpp.web.constant.ErrorCode;
 import com.cpp.web.framework.annotation.BusinessMethod;
@@ -42,7 +43,7 @@ public class WeatherService {
             getMap.put("ak", config.getAk());
             getMap.put("location", inParam.get("city"));
             Weather weather = JSON.parseObject(HttpRequest.newInstance("http://api.map.baidu.com/telematics/v3/weather", HttpRequest.Method.GET).getParams(getMap).send(), Weather.class);
-            return new BaseResponse(ErrorCode.SUCCESS, "查询天气成功", BeanUtil.bean2ListMap(weather));
+            return new BaseResponseMap(ErrorCode.SUCCESS, "查询天气成功", BeanUtil.bean2ListMap(weather));
         } catch (Exception e) {
             e.printStackTrace();
         }

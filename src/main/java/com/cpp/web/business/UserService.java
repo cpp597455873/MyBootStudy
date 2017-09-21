@@ -1,14 +1,20 @@
 package com.cpp.web.business;
 
+import com.cpp.web.bean.User;
 import com.cpp.web.bean.response.BaseResponse;
+import com.cpp.web.bean.response.BaseResponseMap;
+import com.cpp.web.bean.response.BaseResponseT;
 import com.cpp.web.constant.ErrorCode;
-import com.cpp.web.framework.annotation.BusinessModule;
+import com.cpp.web.dao.IUserDao;
 import com.cpp.web.framework.annotation.BusinessMethod;
+import com.cpp.web.framework.annotation.BusinessModule;
 import com.cpp.web.util.ListUtil;
 import com.cpp.web.util.SecurityUtil;
 import com.cpp.web.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +41,7 @@ public class UserService extends BaseService {
         } else if (!SecurityUtil.isPwdMathch(pwd, (String) maps.get(0).get("pwd"))) {
             return new BaseResponse(ErrorCode.LOGIN_FAIL, "用户名或密码错误");
         } else {
-            return new BaseResponse(ErrorCode.SUCCESS, "登录成功", maps);
+            return new BaseResponseMap(ErrorCode.SUCCESS, "登录成功", maps);
         }
     }
 
@@ -84,5 +90,25 @@ public class UserService extends BaseService {
             loginResult.setMsg("注册成功");
         }
         return loginResult;
+    }
+
+
+    @Autowired
+    IUserDao userDao;
+
+
+    @BusinessMethod
+    public BaseResponse listUsers(Map<String, Object> inParam) {
+        return new BaseResponseT<User>(ErrorCode.SUCCESS, "", userDao.getAllUser());
+    }
+
+    @BusinessMethod
+    public BaseResponse login2(Map<String, Object> inParam) {
+        return new BaseResponseT<User>(ErrorCode.SUCCESS, "", Arrays.asList(userDao.login2((String) inParam.get("username"), (String) inParam.get("pwd"))));
+    }
+
+    @BusinessMethod
+    public BaseResponse login3(Map<String, Object> inParam) {
+        return new BaseResponseT<User>(ErrorCode.SUCCESS, "", Arrays.asList(userDao.login3((String) inParam.get("username"), (String) inParam.get("pwd"))));
     }
 }

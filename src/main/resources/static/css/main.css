@@ -40,8 +40,9 @@
 
 .search_box {
     padding-left: 8px;
-    height: 400px;
-    width: 600px;
+    width: 200px;
+    float: left;
+    display: inline-block;
 }
 
 .search_btn {

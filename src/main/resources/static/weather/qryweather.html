@@ -14,8 +14,11 @@
 </head>
 <body>
 <div id="app" style="text-align: center">
-    <mt-field v-model="cityName" placeholder="请输入城市名称"  class="search_box"></mt-field>
-    <mt-button @click.native="getData">搜索</mt-button>
+
+    <mt-field label="城市名称" v-model="cityName">
+        <mt-button @click.native="getData">搜索</mt-button>
+    </mt-field>
+
     <div v-if="retData">
         <weather_item v-for="(weather,index) in retData.resultList[0].results[0].weather_data" :weather="weather" :index="index"></weather_item>
     </div>
@@ -55,6 +58,7 @@
     var app = new Vue({
         el: '#app',
         data: {
+            appa: new App(),
             result: '请先查询天气哦',
             cityName: localStorage.getItem("city") ? localStorage.getItem("city") : "北京",
             retData: undefined
@@ -62,7 +66,7 @@
         methods: {
             getData: function () {
                 localStorage.setItem("city", this.cityName);
-                new App().postRequest(this, "http://localhost:8080/glass/deal/weather/get", {city: this.cityName}, function (retData) {
+                this.appa.postRequest(this, {code: "getWeather", param: {city: this.cityName}}, function (retData) {
                     this.retData = retData.body;
                 }, function (error) {
                     alert("失败啦");

@@ -2,19 +2,17 @@ package com.cpp.web.business;
 
 import com.cpp.web.bean.User;
 import com.cpp.web.bean.response.BaseResponse;
-import com.cpp.web.bean.response.BaseResponseMap;
 import com.cpp.web.bean.response.BaseResponseT;
+import com.cpp.web.bean.response.ResponseMap;
 import com.cpp.web.constant.ErrorCode;
-import com.cpp.web.dao.IUserDao;
-import com.cpp.web.framework.annotation.BusinessMethod;
-import com.cpp.web.framework.annotation.BusinessModule;
+import com.cpp.web.framework.annotation.BizMethod;
+import com.cpp.web.framework.annotation.BizModule;
+import com.cpp.web.framework.database.Page;
 import com.cpp.web.util.ListUtil;
 import com.cpp.web.util.SecurityUtil;
 import com.cpp.web.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +20,7 @@ import java.util.Map;
  * Created by cpp59 on 2017/9/6.
  */
 @Component
-@BusinessModule
+@BizModule
 public class UserService extends BaseService {
 
     /**
@@ -31,7 +29,7 @@ public class UserService extends BaseService {
      * @param inParam
      * @return
      */
-    @BusinessMethod
+    @BizMethod
     public BaseResponse login(Map<String, Object> inParam) {
         String username = (String) inParam.get("username");
         String pwd = (String) inParam.get("pwd");
@@ -41,7 +39,7 @@ public class UserService extends BaseService {
         } else if (!SecurityUtil.isPwdMathch(pwd, (String) maps.get(0).get("pwd"))) {
             return new BaseResponse(ErrorCode.LOGIN_FAIL, "用户名或密码错误");
         } else {
-            return new BaseResponseMap(ErrorCode.SUCCESS, "登录成功", maps);
+            return new ResponseMap(ErrorCode.SUCCESS, "登录成功", maps);
         }
     }
 
@@ -51,7 +49,7 @@ public class UserService extends BaseService {
      * @param inParam
      * @return
      */
-    @BusinessMethod
+    @BizMethod
     public BaseResponse logout(Map<String, Object> inParam) {
         return BaseResponse.emptySuccessResult();
     }
@@ -62,7 +60,7 @@ public class UserService extends BaseService {
      * @param inParam
      * @return
      */
-    @BusinessMethod
+    @BizMethod
     public BaseResponse register(Map<String, Object> inParam) {
         String username = (String) inParam.get("username");
         String pwd = (String) inParam.get("pwd");
@@ -92,23 +90,10 @@ public class UserService extends BaseService {
         return loginResult;
     }
 
-
-    @Autowired
-    IUserDao userDao;
-
-
-    @BusinessMethod
-    public BaseResponse listUsers(Map<String, Object> inParam) {
-        return new BaseResponseT<User>(ErrorCode.SUCCESS, "", userDao.getAllUser());
+    @BizMethod
+    public BaseResponse listUsers(Map<String, Object> param) {
+        List<User> users = exeuteMySqlPage("SELECT * FROM user", param, new Page(0, 10), User.class);
+        return new BaseResponseT<>(ErrorCode.SUCCESS, "", users);
     }
 
-    @BusinessMethod
-    public BaseResponse login2(Map<String, Object> inParam) {
-        return new BaseResponseT<User>(ErrorCode.SUCCESS, "", Arrays.asList(userDao.login2((String) inParam.get("username"), (String) inParam.get("pwd"))));
-    }
-
-    @BusinessMethod
-    public BaseResponse login3(Map<String, Object> inParam) {
-        return new BaseResponseT<User>(ErrorCode.SUCCESS, "", Arrays.asList(userDao.login3((String) inParam.get("username"), (String) inParam.get("pwd"))));
-    }
 }

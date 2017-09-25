@@ -11,14 +11,14 @@ import java.util.Map;
 /**
  * Created by cpp59 on 2017/9/7.
  */
-public class BaseResponseMap extends BaseResponse {
+public class ResponseMap extends BaseResponse {
 
-    public BaseResponseMap(int code, String msg, List<Map<String, Object>> resultList) {
+    public ResponseMap(int code, String msg, List<Map<String, Object>> resultList) {
         super(code, msg);
         this.resultList = resultList;
     }
 
-    public BaseResponseMap() {
+    public ResponseMap() {
     }
 
     public List<Map<String, Object>> getResultList() {

@@ -3,16 +3,14 @@ package com.cpp.web.framework;
 import com.cpp.web.bean.request.RequestBean;
 import com.cpp.web.bean.response.BaseResponse;
 import com.cpp.web.constant.ErrorCode;
-import com.cpp.web.framework.annotation.BusinessModule;
-import com.cpp.web.framework.annotation.BusinessMethod;
+import com.cpp.web.framework.annotation.BizModule;
+import com.cpp.web.framework.annotation.BizMethod;
 import com.cpp.web.util.LogUtil;
 import com.cpp.web.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +38,7 @@ public class AppEngine {
      */
     private void initBusinessMethod() {
         //扫描出对应的业务代码
-        Map<String, Object> businessModuleMap = appContext.getBeansWithAnnotation(BusinessModule.class);
+        Map<String, Object> businessModuleMap = appContext.getBeansWithAnnotation(BizModule.class);
         if (businessModuleMap != null) {
             Set<Map.Entry<String, Object>> entries = businessModuleMap.entrySet();
             for (Map.Entry<String, Object> entry : entries) {
@@ -52,8 +50,8 @@ public class AppEngine {
                         Annotation[] declaredAnnotations = method.getDeclaredAnnotations();
                         if (declaredAnnotations != null && declaredAnnotations.length > 0) {
                             for (Annotation declaredAnnotation : declaredAnnotations) {
-                                if (declaredAnnotation.annotationType().equals(BusinessMethod.class)) {
-                                    BusinessMethod annotation = method.getAnnotation(BusinessMethod.class);
+                                if (declaredAnnotation.annotationType().equals(BizMethod.class)) {
+                                    BizMethod annotation = method.getAnnotation(BizMethod.class);
                                     String name = annotation.value();
                                     if (name.equals("")) {
                                         name = method.getName();

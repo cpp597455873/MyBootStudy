@@ -21,7 +21,7 @@ public class EntranceController {
     AppEngine appEngine;
 
     /**
-     * 入口房阿发
+     * 入口
      *
      * @param requestBean
      * @return

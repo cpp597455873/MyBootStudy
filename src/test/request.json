@@ -3,3 +3,11 @@
   "code": "listUsers",
   "param": {}
 }
+
+
+{
+  "code": "register",
+  "param": {
+    "username": "cpp1", "pwd": "1"
+  }
+}
